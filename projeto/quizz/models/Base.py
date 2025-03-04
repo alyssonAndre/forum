@@ -1,5 +1,5 @@
 from django.db import models
-from setup.models.SoftDeleteModel import SoftDeleteModel
+from quizz.models.SoftDeleteModel import SoftDeleteModel
 
 
 
