@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from quizz.models.Base import Course
-from setup.models.SoftDeleteModel import SoftDeleteModel
+from quizz.models.SoftDeleteModel import SoftDeleteModel
 
 
 class Quiz(SoftDeleteModel):
