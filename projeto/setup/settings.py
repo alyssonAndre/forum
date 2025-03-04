@@ -98,5 +98,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Pasta estática global
+    BASE_DIR / "components" / "static",  # Inclui a pasta 'static' dentro de 'components'
+    BASE_DIR / "quizz" / "static",  # Inclui a pasta 'static' dentro de 'quizz'
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
