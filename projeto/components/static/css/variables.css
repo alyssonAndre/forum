@@ -1,0 +1,94 @@
+/* Variáveis de Cores */
+:root {
+  --color-black-900: #1a1a1a;
+  --color-white-800: #ffffff;
+
+  --color-blue-900: #00466d;
+  --color-blue-800: #005788;
+  --color-blue-700: #0068a3;
+  --color-blue-600: #007abe;
+  --color-blue-500: #008bd9;
+  --color-blue-400: #3ba6e2;
+  --color-blue-300: #77c1eb;
+  --color-blue-200: #b2dcf4;
+  --color-blue-100: #edf7fc;
+
+  --color-gray-900: #222427;
+  --color-gray-800: #3f4247;
+  --color-gray-700: #4c4f55;
+  --color-gray-600: #585c63;
+  --color-gray-500: #656971;
+  --color-gray-450: #6c757d;
+  --color-gray-400: #898c92;
+  --color-gray-300: #adafb3;
+  --color-gray-200: #dcdee0;
+  --color-gray-100: #f6f7fb;
+
+  --color-green-900: #115111;
+  --color-green-800: #156515;
+  --color-green-700: #1a7919;
+  --color-green-600: #1e8d1d;
+  --color-green-500: #22a121;
+  --color-green-400: #55b755;
+  --color-green-300: #89cd88;
+  --color-green-200: #bce3bc;
+  --color-green-100: #d7fdd7;
+
+  /* Tamanhos de Fonte */
+  --font-size-2: 2px;
+  --font-size-4: 4px;
+  --font-size-6: 6px;
+  --font-size-8: 8px;
+  --font-size-10: 10px;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
+  --font-size-24: 24px;
+  --font-size-26: 26px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
+  --font-size-32: 32px;
+  --font-size-34: 34px;
+  --font-size-36: 36px;
+  --font-size-38: 38px;
+  --font-size-40: 40px;
+  --font-size-42: 42px;
+  --font-size-44: 44px;
+  --font-size-46: 46px;
+  --font-size-48: 48px;
+  --font-size-50: 50px;
+
+  /* Border Radius */
+  --border-radius-2: 2px;
+  --border-radius-4: 4px;
+  --border-radius-6: 6px;
+  --border-radius-8: 8px;
+  --border-radius-10: 10px;
+  --border-radius-12: 12px;
+  --border-radius-14: 14px;
+  --border-radius-16: 16px;
+  --border-radius-18: 18px;
+  --border-radius-20: 20px;
+  --border-radius-22: 22px;
+  --border-radius-24: 24px;
+  --border-radius-26: 26px;
+  --border-radius-28: 28px;
+  --border-radius-30: 30px;
+  --border-radius-32: 32px;
+  --border-radius-34: 34px;
+  --border-radius-36: 36px;
+  --border-radius-38: 38px;
+  --border-radius-40: 40px;
+
+  /* Tipografia */
+  --main-source: "Inter", sans-serif;
+  --secondary-source: "Roboto", sans-serif;
+
+  --font-weight-400: 400;
+  --font-weight-500: 500;
+  --font-weight-600: 600;
+  --font-weight-700: 700;
+}
