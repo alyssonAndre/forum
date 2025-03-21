@@ -5,6 +5,26 @@
   <title>$Title$</title>
 </head>
 <body>
-$END$
+  <div>
+    Teste Vocacional
+  </div>
+  
+  <form method="POST">
+    {% csrf_token %}
+    <!-- Exibe todas as perguntas e suas alternativas -->
+    <form method="POST">
+      {% csrf_token %}
+      {% for question in questions %}
+          <p><strong>{{ question.text }}</strong></p>
+          {% for alternative in question.alternatives.all %}
+              <label>
+                  <input type="radio" name="question_{{ question.id }}" value="{{ alternative.recommended_course.id }}">
+                  {{ alternative.text }}
+              </label><br>
+          {% endfor %}
+      {% endfor %}
+      <button type="submit">Enviar</button>
+  </form>
+
 </body>
 </html>
