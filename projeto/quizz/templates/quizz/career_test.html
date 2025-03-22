@@ -2,26 +2,37 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste Vocacional</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'quizz/css/career_test.css' %}" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body class="bg-gray-100">
+  </head>
+  <body>
+    <div>
+      <h1 class="text-heading-xl-main-source text-center mb-3">
+        Teste Vocacional
+      </h1>
 
-    <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold text-center mb-8">Teste Vocacional</h1>
-
-        <div id="questions-container" class="space-y-8">
-            <!-- As perguntas serão carregadas aqui via AJAX -->
-        </div>
-
-        <button id="load-more-questions" class="bg-blue-500 text-white px-4 py-2 rounded-md w-full mt-4">Carregar mais perguntas</button>
+      <div id="questions-container">
+        <!-- As perguntas serão carregadas aqui via AJAX -->
+      </div>
+    </div>
+    <div class="text-right">
+      <button
+        id="load-more-questions"
+        class="bg-blue-500 text-white px-8 py-2 rounded-md mt-4"
+      >
+        Próxima pergunta
+      </button>
     </div>
 
-<script src="{% static 'quizz/js/career_test.js' %}"></script>
-
-</body>
+    <script src="{% static 'quizz/js/career_test.js' %}"></script>
+  </body>
 </html>

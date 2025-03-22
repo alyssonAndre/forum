@@ -33,6 +33,56 @@
   --color-green-200: #bce3bc;
   --color-green-100: #d7fdd7;
 
+  --color-magenta-900: #741626;
+  --color-magenta-800: #901b2f;
+  --color-magenta-700: #ad2038;
+  --color-magenta-600: #ca2642;
+  --color-magenta-500: #e72b4b;
+  --color-magenta-400: #ed5c75;
+  --color-magenta-300: #f28e9f;
+  --color-magenta-200: #f8bfc9;
+  --color-magenta-100: #fdf0f2;
+
+  --color-orange-900: #802b18;
+  --color-orange-800: #9f361e;
+  --color-orange-700: #bf4124;
+  --color-orange-600: #df4b2a;
+  --color-orange-500: #ff5630;
+  --color-orange-400: #ff7d60;
+  --color-orange-300: #ffa590;
+  --color-orange-200: #ffccc0;
+  --color-orange-100: #fff3f1;
+
+  --color-purple-900: #2e2e80;
+  --color-purple-800: #3a3a9f;
+  --color-purple-700: #4545bf;
+  --color-purple-600: #5151df;
+  --color-purple-500: #5c5cff;
+  --color-purple-400: #8282ff;
+  --color-purple-300: #a8a8ff;
+  --color-purple-200: #ceceff;
+  --color-purple-100: #f4f4ff;
+
+  --color-red-900: #802b18;
+  --color-red-800: #9f361e;
+  --color-red-700: #bf4124;
+  --color-red-600: #df4b2a;
+  --color-red-500: #ff5630;
+  --color-red-400: #ff7d60;
+  --color-red-300: #ffa590;
+  --color-red-200: #ffccc0;
+  --color-red-100: #fff3f1;
+
+  --color-yellow-900: #805600;
+  --color-yellow-800: #9f6b00;
+  --color-yellow-700: #bf8000;
+  --color-yellow-600: #df9600;
+  --color-yellow-500: #ffab00;
+  --color-yellow-400: #ffbf3b;
+  --color-yellow-300: #ffd277;
+  --color-yellow-200: #ffe6b2;
+  --color-yellow-100: #fff9ed;
+
   /* Tamanhos de Fonte */
   --font-size-2: 2px;
   --font-size-4: 4px;
