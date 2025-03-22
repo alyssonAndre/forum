@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -40,4 +41,25 @@ class UserAnswer(models.Model):
         return f"Answer of {self.user} for {self.question}."
 
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
+    @classmethod
+    def calculate_score(cls, user, quiz):
+        user_answers = cls.objects.filter(user=user, quiz=quiz)
+        course_scores = defaultdict(int)
+
+        for answer in user_answers:
+            if answer.alternative.recommended_course:
+                course_scores[answer.alternative.recommended_course] += answer.alternative.score
+
+        if not course_scores:
+            return None, 0
+
+        max_score = max(course_scores.values())
+        best_courses = [course for course, score in course_scores.items() if score == max_score]
+
+        if len(best_courses) == 1:
+            return best_courses[0], max_score
+        else:
+            return best_courses, max_score
