@@ -164,16 +164,10 @@ $(document).ready(function () {
         }
     });
 
+    let answers = [];
     $('#load-more-questions').click(function () {
-        let answers = []; // Definir fora do if para garantir o escopo correto
-
         if ($(this).text() === 'Finalizar teste') {
             if (checkAnsweredQuestions()) {
-                $('input[type="radio"]:checked').each(function () {
-                    let questionId = $(this).attr('name').split('_')[1];
-                    let alternativeId = $(this).attr('id').split('_').pop();
-                    answers.push({ question: questionId, alternative: alternativeId });
-                });
 
                 // Só faz a requisição AJAX se tiver respostas
                 if (answers.length > 0) {
@@ -184,14 +178,7 @@ $(document).ready(function () {
                         data: JSON.stringify({ answers: answers }),
                         headers: { "X-CSRFToken": getCookie("csrftoken") },
                         success: function (data) {
-                            if (data.recommended_course) {
-                                alert(`Seu curso recomendado é: ${data.recommended_course}`);
-                            } else if (data.recommended_courses) {
-                                alert(`Seu perfil se relaciona com esses dois cursos: ${data.recommended_courses.join(' e ')}`);
-                            } else {
-                                alert("Erro: Nenhum curso recomendado.");
-                            }
-
+                            alert(`Seu curso recomendado é: ${data.recommended_course}, ${data.score}`);
                             location.reload();
                         },
                         error: function () {
@@ -205,6 +192,16 @@ $(document).ready(function () {
                 showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
             }
         }
+    });
+
+    $(document).on('change', 'input[type="radio"]', function () {
+        let questionId = $(this).attr('name').split('_')[1];
+        let alternativeId = $(this).attr('id').split('_').pop();
+
+        answers = answers.filter(ans => ans.question !== questionId);
+
+        answers.push({ question: questionId, alternative: alternativeId });
+
     });
 
 });
