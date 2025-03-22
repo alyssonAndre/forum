@@ -164,35 +164,45 @@ $(document).ready(function () {
         }
     });
 
-    let answers = [];
-    $('#load-more-questions').click(function () {
-        if ($(this).text() === 'Finalizar teste') {
-            if (checkAnsweredQuestions()) {
+let answers = [];
+$('#load-more-questions').click(function () {
+    if ($(this).text() === 'Finalizar teste') {
+        if (checkAnsweredQuestions()) {
 
-                // Só faz a requisição AJAX se tiver respostas
-                if (answers.length > 0) {
-                    $.ajax({
-                        url: '/api/submit-answers/',
-                        method: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify({ answers: answers }),
-                        headers: { "X-CSRFToken": getCookie("csrftoken") },
-                        success: function (data) {
-                            alert(`Seu curso recomendado é: ${data.recommended_course}, ${data.score}`);
-                            location.reload();
-                        },
-                        error: function () {
-                            alert('Erro ao enviar respostas!');
+            // Só faz a requisição AJAX se tiver respostas
+            if (answers.length > 0) {
+                $.ajax({
+                    url: '/api/submit-answers/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ answers: answers }),
+                    headers: { "X-CSRFToken": getCookie("csrftoken") },
+                    success: function (data) {
+                        if (data.recommended_courses) {
+                            // Caso haja empate (dois cursos recomendados)
+                            alert(`Seu perfil se encaixa em: ${data.recommended_courses.join(" e ")}!`);
+                        } else if (data.recommended_course) {
+                            // Caso tenha apenas um curso recomendado
+                            alert(`Seu curso recomendado é: ${data.recommended_course}`);
+                        } else {
+                            // Caso nenhuma recomendação tenha sido gerada
+                            alert("Nenhuma recomendação foi gerada com base nas respostas.");
                         }
-                    });
-                } else {
-                    alert('Nenhuma resposta selecionada!');
-                }
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Erro ao enviar respostas!');
+                    }
+                });
             } else {
-                showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
+                alert('Nenhuma resposta selecionada!');
             }
+        } else {
+            showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
         }
-    });
+    }
+});
+
 
     $(document).on('change', 'input[type="radio"]', function () {
         let questionId = $(this).attr('name').split('_')[1];
