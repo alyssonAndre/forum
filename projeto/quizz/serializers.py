@@ -16,3 +16,8 @@ class QuestionSerializer(serializers.ModelSerializer):
     def get_alternatives(self, obj):
         """Retorna no máximo 5 alternativas para cada pergunta"""
         return AlternativeSerializer(obj.alternatives.all()[:5], many=True).data
+
+class UserAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAnswer
+        fields = '__all__'
