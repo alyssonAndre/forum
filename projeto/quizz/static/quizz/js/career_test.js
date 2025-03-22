@@ -164,42 +164,49 @@ $(document).ready(function () {
         }
     });
 
-    $('#submit-answers').click(function () {
-        let answers = [];
+    $('#load-more-questions').click(function () {
+        let answers = []; // Definir fora do if para garantir o escopo correto
 
-        $('input[type="radio"]:checked').each(function () {
-            let questionId = $(this).attr('name').split('_')[1];
-            let alternativeId = $(this).attr('id').split('_').pop();
-            answers.push({ question: questionId, alternative: alternativeId });
-        });
+        if ($(this).text() === 'Finalizar teste') {
+            if (checkAnsweredQuestions()) {
+                $('input[type="radio"]:checked').each(function () {
+                    let questionId = $(this).attr('name').split('_')[1];
+                    let alternativeId = $(this).attr('id').split('_').pop();
+                    answers.push({ question: questionId, alternative: alternativeId });
+                });
 
+                // Só faz a requisição AJAX se tiver respostas
+                if (answers.length > 0) {
+                    $.ajax({
+                        url: '/api/submit-answers/',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ answers: answers }),
+                        headers: { "X-CSRFToken": getCookie("csrftoken") },
+                        success: function (data) {
+                            if (data.recommended_course) {
+                                alert(`Seu curso recomendado é: ${data.recommended_course}`);
+                            } else if (data.recommended_courses) {
+                                alert(`Seu perfil se relaciona com esses dois cursos: ${data.recommended_courses.join(' e ')}`);
+                            } else {
+                                alert("Erro: Nenhum curso recomendado.");
+                            }
 
-        $.ajax({
-            url: '/api/submit-answers/',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ answers: answers }),
-            headers: { "X-CSRFToken": getCookie("csrftoken") },
-            success: function (data) {
-
-                if (data.recommended_course) {
-                    alert(`Seu curso recomendado é: ${data.recommended_course}`);
-                } else if (data.recommended_courses) {
-                    alert(`Seu perfil se relaciona com esses dois cursos: ${data.recommended_courses.join(' e ')}`);
+                            location.reload();
+                        },
+                        error: function () {
+                            alert('Erro ao enviar respostas!');
+                        }
+                    });
                 } else {
-                    alert("Erro: Nenhum curso recomendado.");
+                    alert('Nenhuma resposta selecionada!');
                 }
-
-                location.reload();
-            },
-            error: function () {
-                alert('Erro ao enviar respostas!');
+            } else {
+                showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
             }
-        });
-
-
-
+        }
     });
+
 });
 
 
