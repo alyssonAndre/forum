@@ -10,3 +10,6 @@ def index(request):
 
 def careerTest(request):
     return render(request, 'quizz/career_test.html')
+
+def score(request):
+    return render(request, 'quizz/score.html')
