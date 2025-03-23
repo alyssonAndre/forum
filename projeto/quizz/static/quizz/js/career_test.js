@@ -108,7 +108,7 @@ function loadQuestions() {
                 currentPage++;
 
                 // Atualiza o botão para "Finalizar teste" após a última pergunta
-                if (questionCount >= 10) {
+                if (questionCount >= 3) {
                     $('#load-more-questions').text('Finalizar teste');
                 }
             } else {
@@ -146,7 +146,7 @@ $(document).ready(function () {
     $('#load-more-questions').click(function () {
         if ($(this).text() === 'Finalizar teste') {
             if (checkAnsweredQuestions()) {
-                alert("Teste finalizado! Obrigado por participar!");
+                // alert("Teste finalizado! Obrigado por participar!");
             } else {
                 showMessage('Por favor, responda a pergunta antes de finalizar o teste!');
             }
@@ -164,44 +164,48 @@ $(document).ready(function () {
         }
     });
 
-let answers = [];
-$('#load-more-questions').click(function () {
-    if ($(this).text() === 'Finalizar teste') {
-        if (checkAnsweredQuestions()) {
+    let answers = [];
+    $('#load-more-questions').click(function () {
+        if ($(this).text() === 'Finalizar teste') {
+            if (checkAnsweredQuestions()) {
 
-            // Só faz a requisição AJAX se tiver respostas
-            if (answers.length > 0) {
-                $.ajax({
-                    url: '/api/submit-answers/',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ answers: answers }),
-                    headers: { "X-CSRFToken": getCookie("csrftoken") },
-                    success: function (data) {
-                        if (data.recommended_courses) {
-                            // Caso haja empate (dois cursos recomendados)
-                            alert(`Seu perfil se encaixa em: ${data.recommended_courses.join(" e ")}!`);
-                        } else if (data.recommended_course) {
-                            // Caso tenha apenas um curso recomendado
-                            alert(`Seu curso recomendado é: ${data.recommended_course}`);
-                        } else {
-                            // Caso nenhuma recomendação tenha sido gerada
-                            alert("Nenhuma recomendação foi gerada com base nas respostas.");
+                // Só faz a requisição AJAX se tiver respostas
+                if (answers.length > 0) {
+                    $.ajax({
+                        url: '/api/submit-answers/',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ answers: answers }),
+                        headers: { "X-CSRFToken": getCookie("csrftoken") },
+                        success: function (data) {
+                            let course;
+
+                            // Verifique se data.recommended_courses existe e tem um valor válido
+                            if (data.recommended_course) {
+                                course = data.recommended_course;  // Pegue o primeiro curso se houver apenas um
+                            } else if (data.recommended_courses) {
+                                course = data.recommended_courses.join(" ou ");  // Se houver mais de um, combine-os com "ou"
+                            } else {
+                                course = "Nenhum curso recomendado";  // Se não houver cursos, informe isso
+                            }
+
+                            if (course) {
+                                // Redireciona para a URL com os parâmetros de curso e pontuação
+                                window.location.href = `/quiz/score/?course=${encodeURIComponent(course)}&score=${data.score}`;
+                            }
+                        },
+                        error: function () {
+                            alert('Erro ao enviar respostas!');
                         }
-                        location.reload();
-                    },
-                    error: function () {
-                        alert('Erro ao enviar respostas!');
-                    }
-                });
+                    });
+                } else {
+                    alert('Nenhuma resposta selecionada!');
+                }
             } else {
-                alert('Nenhuma resposta selecionada!');
+                showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
             }
-        } else {
-            showMessage('Por favor, responda todas as perguntas antes de finalizar o teste!');
         }
-    }
-});
+    });
 
 
     $(document).on('change', 'input[type="radio"]', function () {
