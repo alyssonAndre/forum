@@ -108,7 +108,7 @@ function loadQuestions() {
                 currentPage++;
 
                 // Atualiza o botão para "Finalizar teste" após a última pergunta
-                if (questionCount >= 3) {
+                if (questionCount >= 10) {
                     $('#load-more-questions').text('Finalizar teste');
                 }
             } else {

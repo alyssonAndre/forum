@@ -44,7 +44,7 @@ class QuestionListView(generics.ListAPIView):
         selected_questions = list(available_questions)
         random.shuffle(selected_questions)
 
-        return selected_questions[:3]
+        return selected_questions[:10]
 
 
 class QuestionResultView(APIView):
