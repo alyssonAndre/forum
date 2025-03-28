@@ -1,0 +1,182 @@
+[
+    {
+        "text": "Qual dessas atividades mais te agrada?",
+        "alternatives": [
+            {"text": "Criar aplicativos e sistemas", "recommended_course": "software", "score": 10},
+            {"text": "Trabalhar em laboratórios com reações químicas", "recommended_course": "quimica", "score": 10},
+            {"text": "Projetar circuitos e eletrônicos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Construir grandes estruturas como pontes e prédios", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "O que mais te interessa em um projeto?",
+        "alternatives": [
+            {"text": "Lógica e programação", "recommended_course": "software", "score": 10},
+            {"text": "Comportamento de substâncias químicas", "recommended_course": "quimica", "score": 10},
+            {"text": "Energia elétrica e circuitos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Estruturas e resistência de materiais", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Com qual dessas ferramentas você gostaria de trabalhar?",
+        "alternatives": [
+            {"text": "Computadores e algoritmos", "recommended_course": "software", "score": 10},
+            {"text": "Tubos de ensaio e substâncias químicas", "recommended_course": "quimica", "score": 10},
+            {"text": "Motores e circuitos elétricos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Concreto e vigas estruturais", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Se você pudesse escolher um local de trabalho ideal, qual seria?",
+        "alternatives": [
+            {"text": "Escritório desenvolvendo software", "recommended_course": "software", "score": 10},
+            {"text": "Laboratório de química", "recommended_course": "quimica", "score": 10},
+            {"text": "Indústria automotiva ou de eletrônicos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Canteiro de obras", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "O que mais te motiva em uma profissão?",
+        "alternatives": [
+            {"text": "Criar inovações tecnológicas", "recommended_course": "software", "score": 10},
+            {"text": "Desenvolver novos materiais e substâncias", "recommended_course": "quimica", "score": 10},
+            {"text": "Trabalhar com energia e automação", "recommended_course": "eletrica", "score": 10},
+            {"text": "Projetar e construir estruturas duradouras", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você prefere trabalhar com dados ou com objetos físicos?",
+        "alternatives": [
+            {"text": "Dados e informações", "recommended_course": "software", "score": 10},
+            {"text": "Objetos e materiais físicos", "recommended_course": "quimica", "score": 10},
+            {"text": "Sistemas e máquinas", "recommended_course": "eletrica", "score": 10},
+            {"text": "Estruturas e construção", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Como você se sente em relação a trabalhar em equipe?",
+        "alternatives": [
+            {"text": "Gosto muito de trabalhar em equipe", "recommended_course": "software", "score": 10},
+            {"text": "Prefiro trabalhar sozinho", "recommended_course": "quimica", "score": 10},
+            {"text": "É importante, mas posso trabalhar bem sozinho também", "recommended_course": "eletrica", "score": 10},
+            {"text": "Trabalho bem em equipe, principalmente em projetos grandes", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Qual dessas habilidades você acha mais interessante desenvolver?",
+        "alternatives": [
+            {"text": "Programação e desenvolvimento de software", "recommended_course": "software", "score": 10},
+            {"text": "Análise de reações e substâncias", "recommended_course": "quimica", "score": 10},
+            {"text": "Manutenção e criação de sistemas elétricos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Planejamento e construção de projetos de engenharia", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você prefere focar em resultados rápidos ou soluções mais duradouras?",
+        "alternatives": [
+            {"text": "Resultados rápidos e eficientes", "recommended_course": "software", "score": 10},
+            {"text": "Soluções que podem durar muito tempo", "recommended_course": "quimica", "score": 10},
+            {"text": "Soluções eficazes e de longo prazo", "recommended_course": "eletrica", "score": 10},
+            {"text": "Construir projetos duráveis e sólidos", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Qual é a sua abordagem para resolver problemas?",
+        "alternatives": [
+            {"text": "Analisar o problema e buscar soluções criativas", "recommended_course": "software", "score": 10},
+            {"text": "Investigar profundamente a causa e criar novas soluções", "recommended_course": "quimica", "score": 10},
+            {"text": "Usar a lógica e a técnica para encontrar uma solução", "recommended_course": "eletrica", "score": 10},
+            {"text": "Analisar a viabilidade e começar a construção de um projeto", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você tem facilidade em aprender novos conceitos técnicos?",
+        "alternatives": [
+            {"text": "Sim, sempre me adapto bem", "recommended_course": "software", "score": 10},
+            {"text": "Sim, principalmente se for relacionado a reações químicas", "recommended_course": "quimica", "score": 10},
+            {"text": "Sim, especialmente com circuitos e elétrica", "recommended_course": "eletrica", "score": 10},
+            {"text": "Sim, se envolver grandes projetos e planejamento", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Como você lida com mudanças tecnológicas constantes?",
+        "alternatives": [
+            {"text": "Adoro me manter atualizado e aprender sobre novas tecnologias", "recommended_course": "software", "score": 10},
+            {"text": "Fico fascinado pela inovação científica", "recommended_course": "quimica", "score": 10},
+            {"text": "Sempre estou disposto a aprender sobre novas tecnologias", "recommended_course": "eletrica", "score": 10},
+            {"text": "A adaptação é essencial para os projetos de engenharia", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você prefere resolver problemas práticos ou teóricos?",
+        "alternatives": [
+            {"text": "Prefiro resolver problemas práticos", "recommended_course": "software", "score": 10},
+            {"text": "Me sinto mais confortável com problemas teóricos", "recommended_course": "quimica", "score": 10},
+            {"text": "Gosto de ambos, mas me inclino mais para a prática", "recommended_course": "eletrica", "score": 10},
+            {"text": "Prefiro trabalhar com problemas teóricos e práticos", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você gostaria de desenvolver habilidades de liderança?",
+        "alternatives": [
+            {"text": "Sim, adoro liderar equipes e projetos", "recommended_course": "software", "score": 10},
+            {"text": "Sim, principalmente em laboratório ou área científica", "recommended_course": "quimica", "score": 10},
+            {"text": "Sim, quero liderar projetos elétricos e de automação", "recommended_course": "eletrica", "score": 10},
+            {"text": "Sim, em projetos de construção e engenharia", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Como você lida com prazos apertados?",
+        "alternatives": [
+            {"text": "Trabalho bem sob pressão", "recommended_course": "software", "score": 10},
+            {"text": "Organizo meu tempo e priorizo as tarefas", "recommended_course": "quimica", "score": 10},
+            {"text": "Mantenho a calma e busco soluções rápidas", "recommended_course": "eletrica", "score": 10},
+            {"text": "Planejo com antecedência e sigo o cronograma", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você prefere trabalhar com teorias ou com soluções práticas imediatas?",
+        "alternatives": [
+            {"text": "Gosto de trabalhar com soluções práticas", "recommended_course": "software", "score": 10},
+            {"text": "Prefiro estudar as teorias para aplicar na prática", "recommended_course": "quimica", "score": 10},
+            {"text": "Ambas, depende do contexto do projeto", "recommended_course": "eletrica", "score": 10},
+            {"text": "Prefiro a prática, especialmente em construção", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "O que você mais valoriza em um trabalho?",
+        "alternatives": [
+            {"text": "Criar soluções inovadoras", "recommended_course": "software", "score": 10},
+            {"text": "Resolver problemas científicos", "recommended_course": "quimica", "score": 10},
+            {"text": "Trabalhar com automação e tecnologia", "recommended_course": "eletrica", "score": 10},
+            {"text": "Desenvolver projetos que impactam a sociedade", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Como você se sente em relação à resolução de problemas complexos?",
+        "alternatives": [
+            {"text": "Gosto de desafios e problemas complexos", "recommended_course": "software", "score": 10},
+            {"text": "Adoro resolver problemas científicos profundos", "recommended_course": "quimica", "score": 10},
+            {"text": "Gosto de encontrar soluções para problemas técnicos", "recommended_course": "eletrica", "score": 10},
+            {"text": "Desafio-me a resolver problemas de construção complexos", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Você se considera uma pessoa criativa?",
+        "alternatives": [
+            {"text": "Sim, gosto de criar novas ideias e soluções", "recommended_course": "software", "score": 10},
+            {"text": "Sim, principalmente em áreas científicas e experimentais", "recommended_course": "quimica", "score": 10},
+            {"text": "Sim, especialmente na criação de novos dispositivos e sistemas", "recommended_course": "eletrica", "score": 10},
+            {"text": "Sim, adoro projetar e construir novas estruturas", "recommended_course": "civil", "score": 10}
+        ]
+    },
+    {
+        "text": "Como você se sente em relação a estudar novas tecnologias?",
+        "alternatives": [
+            {"text": "Gosto muito, estou sempre em busca de aprender", "recommended_course": "software", "score": 10},
+            {"text": "Adoro estudar novas substâncias e reações", "recommended_course": "quimica", "score": 10},
+            {"text": "Sempre me empolgo com novas tecnologias elétricas", "recommended_course": "eletrica", "score": 10},
+            {"text": "Gosto de estudar novas técnicas e materiais de construção", "recommended_course": "civil", "score": 10}
+        ]
+    }
+]

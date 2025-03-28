@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado</title>
+    <link rel="stylesheet" href="{% static 'quizz/css/score.css' %}" />
+  </head>
+  <body>
+    <canvas class="fireworks"></canvas>
+    <div class="container">
+      <h1>🎉 Parabéns! 🎉</h1>
+      <p class="score">Pontuação: <span id="score"></span></p>
+      <p class="recommendation">Curso recomendado: <span id="course"></span></p>
+
+      <button class="button-home">
+        <a href="{% url 'index' %}" class="text-not-decorated inline-block">
+          Home
+        </a>
+      </button>
+    </div>
+
+    <script src="{% static 'quizz/js/score.js' %}"></script>
+  </body>
+</html>

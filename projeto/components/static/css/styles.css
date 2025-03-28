@@ -1,0 +1,6 @@
+/* Unificar todos os arquivos CSS em um único arquivo */
+@import "background-color.css";
+@import "border-radius.css";
+@import "text-color.css";
+@import "typography.css";
+@import "font-size.css";
