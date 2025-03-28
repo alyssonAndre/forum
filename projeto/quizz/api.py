@@ -115,7 +115,6 @@ class SubmitAnswersView(APIView):
 
         if new_answers:
             UserAnswer.objects.bulk_create(new_answers)
-            print(f"[LOG] {len(new_answers)} novas respostas inseridas.")
 
         if quiz:
             best_courses, score = UserAnswer.calculate_score(user, quiz)
