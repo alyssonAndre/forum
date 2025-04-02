@@ -72,6 +72,8 @@ h1 {
   margin: 20px 0;
   animation: fadeInDown 3s ease-in-out, scaleUp 3s ease-in-out;
   opacity: 1;
+  cursor: pointer;
+  color: white;
 }
 
 .text-not-decorated {
