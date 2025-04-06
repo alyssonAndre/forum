@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'quizz',
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -103,6 +105,11 @@ STATICFILES_DIRS = [
     BASE_DIR / "components" / "static",  # Inclui a pasta 'static' dentro de 'components'
     BASE_DIR / "quizz" / "static",  # Inclui a pasta 'static' dentro de 'quizz'
 ]
+
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
