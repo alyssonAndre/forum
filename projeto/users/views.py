@@ -20,7 +20,7 @@ class CustomLoginView(LoginView):
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'users/register.html'
-    sucess_url = reverse_lazy('login')
+    success_url = reverse_lazy('login')
 
     def form_valid(self, form):
         messages.success(self.request, 'Registration successful')
