@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -24,6 +24,12 @@ class QuestionListView(generics.ListAPIView):
 
     def get_queryset(self):
         received_ids = self.request.query_params.getlist("received", [])
+        user = self.request.user
+
+        if user.profile.attempts >=3:
+            raise ValidationError(
+                "Você já atingiu o limite de 3 tentativas para o teste vocacional."
+            )
 
         try:
             received_ids = list(map(int, received_ids))

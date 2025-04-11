@@ -72,6 +72,14 @@ function loadQuestions() {
     $.ajax({
         url: `/api/questions/?${queryString}`, // Inclui os IDs das perguntas já recebidas
         method: 'GET',
+        error: function (xhr) {
+            let msg = "Você já atingiu o limite de 3 tentativas para o teste vocacional.";
+            if (xhr.responseJSON?.error) {
+                msg = xhr.responseJSON.error;
+            }
+
+            $("#error-message").removeClass("hidden").text(msg);
+        },
         success: function (data) {
             if (data.results.length > 0) {
                 const question = data.results[0]; // Carrega apenas a primeira pergunta do lote retornado
@@ -115,9 +123,6 @@ function loadQuestions() {
                 $('#load-more-questions').prop('disabled', true).text('Nenhuma pergunta disponível');
             }
         },
-        error: function () {
-            showMessage('Erro ao carregar perguntas!');
-        }
     });
 }
 
@@ -233,3 +238,14 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/api/quiz/questions/",
+        method: "GET",
+
+    });
+});
+
