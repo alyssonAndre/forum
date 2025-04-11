@@ -23,24 +23,19 @@ class QuestionListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Obtém os IDs das perguntas já enviadas do frontend
         received_ids = self.request.query_params.getlist("received", [])
 
         try:
-            # Converte para inteiros
             received_ids = list(map(int, received_ids))
         except ValueError:
             raise ValidationError(
                 "Os IDs das perguntas devem ser números inteiros.")
 
-        # Filtra perguntas que ainda não foram enviadas
         available_questions = Question.objects.exclude(id__in=received_ids)
 
-        # Se não houver mais perguntas disponíveis, retorna todas novamente (reset)
         if not available_questions.exists():
             available_questions = Question.objects.all()
 
-        # Seleciona até 10 perguntas aleatórias
         selected_questions = list(available_questions)
         random.shuffle(selected_questions)
 
@@ -74,14 +69,17 @@ class SubmitAnswersView(APIView):
     def post(self, request):
         user = request.user
         answers = request.data.get("answers", [])
-        print("[LOG] Dados recebidos:", request.data)
+
+        if user.profile.attempts >= 3:
+            return Response({
+                "error": "Você já atingiu o limite de 3 tentativas para o teste vocacional."
+                         "Nào é possivel realizer o teste novamente"
+            })
 
         if not isinstance(answers, list) or not answers:
-            print("[ERRO] Nenhuma resposta válida enviada.")
             return Response({"error": "Nenhuma resposta enviada."}, status=400)
 
         deleted_count, _ = UserAnswer.objects.filter(user=user).delete()
-        print(f"[LOG] {deleted_count} respostas deletadas para o usuário {user}.")
 
         new_answers = []
         quiz = None
@@ -90,20 +88,16 @@ class SubmitAnswersView(APIView):
             alternative_id = answer.get("alternative")
 
             if not question_id or not alternative_id:
-                print(f"[ERRO] Dados inválidos: question_id={question_id}, alternative_id={alternative_id}")
                 return Response({"error": "Pergunta ou alternativa inválida."}, status=400)
 
-            print(f"[LOG] Processando: question_id={question_id}, alternative_id={alternative_id}")
 
             try:
                 question = Question.objects.get(id=question_id)
                 alternative = Alternative.objects.get(id=alternative_id)
                 quiz = question.quiz
             except Question.DoesNotExist:
-                print(f"[ERRO] Pergunta {question_id} não encontrada.")
                 return Response({"error": f"Pergunta {question_id} não encontrada."}, status=400)
             except Alternative.DoesNotExist:
-                print(f"[ERRO] Alternativa {alternative_id} não encontrada.")
                 return Response({"error": f"Alternativa {alternative_id} não encontrada."}, status=400)
 
             new_answers.append(UserAnswer(
@@ -115,6 +109,8 @@ class SubmitAnswersView(APIView):
 
         if new_answers:
             UserAnswer.objects.bulk_create(new_answers)
+            user.profile.attempts += 1
+            user.profile.save()
 
         if quiz:
             best_courses, score = UserAnswer.calculate_score(user, quiz)
@@ -126,6 +122,10 @@ class SubmitAnswersView(APIView):
                     "score": score
                 })
             elif best_courses:
+                if hasattr(user, "profile"):
+                    user.profile.courses = best_courses
+                    user.profile.save()
+
                 return Response({
                     "message": "Respostas registradas com sucesso!",
                     "recommended_course": best_courses.name,

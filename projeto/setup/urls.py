@@ -8,5 +8,6 @@ urlpatterns = [
     path('quiz/', include('quizz.urls'), name='quiz'),
     path('api/', include('quizz.api_urls')),
     path('users/', include('users.urls'), name='users'),
+    path('accounts/', include('allauth.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
