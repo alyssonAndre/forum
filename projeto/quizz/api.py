@@ -70,7 +70,7 @@ class SubmitAnswersView(APIView):
         user = request.user
         answers = request.data.get("answers", [])
 
-        if user.profile.attempts >= 3:
+        if user.profile.attempts >= 2:
             return Response({
                 "error": "Você já atingiu o limite de 3 tentativas para o teste vocacional."
                          "Nào é possivel realizer o teste novamente"
