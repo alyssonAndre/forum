@@ -5,7 +5,7 @@ from .models import UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'courses')
+    list_display = ('user', 'courses','attempts')
 
 
 
