@@ -1,7 +1,6 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.exceptions import ValidationError, PermissionDenied
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -20,7 +19,6 @@ class QuestPagination(PageNumberPagination):
 class QuestionListView(generics.ListAPIView):
     serializer_class = QuestionSerializer
     pagination_class = QuestPagination
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         received_ids = self.request.query_params.getlist("received", [])
@@ -49,7 +47,6 @@ class QuestionListView(generics.ListAPIView):
 
 
 class QuestionResultView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request, quiz_id):
         user = request.user
@@ -70,7 +67,6 @@ class QuestionResultView(APIView):
 
 
 class SubmitAnswersView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         user = request.user

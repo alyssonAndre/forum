@@ -100,6 +100,12 @@ AUTHENTICATION_BACKENDS = (
     # Other backends like Django's ModelBackend can be added if you need multiple auth sources.
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
 
 LANGUAGE_CODE = 'en-us'
 
