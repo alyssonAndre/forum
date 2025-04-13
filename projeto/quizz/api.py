@@ -135,3 +135,22 @@ class SubmitAnswersView(APIView):
                 })
 
         return Response({"message": "Respostas registradas, mas nenhuma recomendação foi gerada."})
+
+
+class SetChosenCourseView(APIView):
+    def post(self, request):
+        course_name = request.data.get("course")
+
+        if not course_name:
+            return Response({"error": "Nome do curso não fornecido."}, status=400)
+
+        try:
+            course = Course.objects.get(name=course_name)
+        except Course.DoesNotExist as e:
+            return Response({"error": "curso não encontrado."}, status=400)
+
+        profile = request.user.profile
+        profile.courses = course
+        profile.save()
+
+        return Response({"message": "Curso escolhido com sucesso!"})
