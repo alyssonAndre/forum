@@ -185,18 +185,55 @@ $(document).ready(function () {
                         success: function (data) {
                             let course;
 
-                            // Verifique se data.recommended_courses existe e tem um valor válido
                             if (data.recommended_course) {
-                                course = data.recommended_course;  // Pegue o primeiro curso se houver apenas um
-                            } else if (data.recommended_courses) {
-                                course = data.recommended_courses.join(" ou ");  // Se houver mais de um, combine-os com "ou"
-                            } else {
-                                course = "Nenhum curso recomendado";  // Se não houver cursos, informe isso
-                            }
+                                // Caso tenha apenas um curso recomendado
+                                window.location.href = `/quiz/score/?course=${encodeURIComponent(data.recommended_course)}&score=${data.score}`;
+                            } else if (data.recommended_courses && data.recommended_courses.length > 1) {
+                                // Caso de empate entre cursos
+                                Swal.fire({
+                                    title: 'Empate entre cursos!',
+                                    text: 'Escolha o curso que mais combina com você:',
+                                    input: 'select',
+                                    inputOptions: data.recommended_courses.reduce((options, course) => {
+                                        options[course] = course;
+                                        return options;
+                                    }, {}),
+                                    inputPlaceholder: 'Selecione um curso',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'Confirmar',
+                                    allowOutsideClick: false,
+                                    preConfirm: (selectedCourse) => {
+                                        return selectedCourse;
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const selectedCourse = result.value;
 
-                            if (course) {
-                                // Redireciona para a URL com os parâmetros de curso e pontuação
-                                window.location.href = `/quiz/score/?course=${encodeURIComponent(course)}&score=${data.score}`;
+                                        $.ajax({
+                                            url: "/api/set-chosen-course/",
+                                            method: "POST",
+                                            contentType: "application/json",
+                                            headers: { "X-CSRFToken": getCookie("csrftoken") },
+                                            data: JSON.stringify({ course: selectedCourse }),
+                                            success: function () {
+                                                window.location.href = `/quiz/score/?course=${encodeURIComponent(selectedCourse)}&score=${data.score}`;
+                                            },
+                                            error: function () {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Erro',
+                                                    text: 'Não foi possível salvar o curso selecionado.'
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Resultado',
+                                    text: 'Nenhum curso recomendado com base nas suas respostas.'
+                                });
                             }
                         },
                         error: function () {
