@@ -1,6 +1,8 @@
 from django.shortcuts import redirect
-from django.contrib import messages
 from django.urls import reverse_lazy
+from django.views import View
+from django.contrib import messages
+from django.contrib.auth import logout
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm, CustomLoginForm
@@ -41,4 +43,11 @@ class RegisterView(CreateView):
         return super().form_invalid(form)
 
 
+
+class CustomLogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'You have been logged out.')
+        return redirect('login')
 
