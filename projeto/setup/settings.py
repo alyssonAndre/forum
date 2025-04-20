@@ -97,6 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'users.backends.EmailBackend',
     # Other backends like Django's ModelBackend can be added if you need multiple auth sources.
 )
 
