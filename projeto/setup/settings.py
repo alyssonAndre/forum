@@ -101,6 +101,10 @@ AUTHENTICATION_BACKENDS = (
     # Other backends like Django's ModelBackend can be added if you need multiple auth sources.
 )
 
+ACCOUNT_ADAPTER = "users.adapters.CustomAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "users.adapters.CustomSocialAccountAdapter"
+
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
