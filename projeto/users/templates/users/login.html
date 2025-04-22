@@ -83,15 +83,21 @@
           >
             Entrar
           </button>
+          
         </form>
+
+          <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 mt-3 rounded-lg hover:bg-blue-700 transition"
+        >
+        <a href="{% url 'register' %}">Cadastre-se</a>
+        </button>
 
         <div class="flex items-center my-6">
           <hr class="flex-grow border-gray-300" />
           <span class="mx-4 text-gray-500">ou</span>
           <hr class="flex-grow border-gray-300" />
         </div>
-          <a href="{% url 'register' %}">Cadastre-se</a>
-
         <div class="flex justify-center">
           <a
             href="{% provider_login_url 'google' %}"
