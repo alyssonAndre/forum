@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,4 +20,184 @@
         <button type="submit">Register</button>
     </form>
 </body>
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div
+      class="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row"
+    >
+      <div class="md:w-1/2 hidden md:block">
+        <img
+          src="{% static 'users/img/img1.webp' %}"
+          alt="Imagem Registro"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <div class="w-full md:w-1/2 p-10">
+        <h2 class="text-3xl font-bold text-center mb-6">Criar Conta</h2>
+
+        <form method="post" class="space-y-5">
+          {% csrf_token %}
+
+          <div>
+            <label
+              for="id_username"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Usuário</label
+            >
+            <input
+              type="text"
+              name="username"
+              id="id_username"
+              value="{{ form.username.value|default:'' }}"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="id_first_name"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Primeiro Nome</label
+            >
+            <input
+              type="text"
+              name="first_name"
+              id="id_first_name"
+              value="{{ form.first_name.value|default:'' }}"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="id_last_name"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Sobrenome</label
+            >
+            <input
+              type="text"
+              name="last_name"
+              id="id_last_name"
+              value="{{ form.last_name.value|default:'' }}"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="id_email"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Email</label
+            >
+            <input
+              type="email"
+              name="email"
+              id="id_email"
+              value="{{ form.email.value|default:'' }}"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="id_password1"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Senha</label
+            >
+            <div class="relative">
+              <input
+                type="password"
+                name="password1"
+                id="id_password1"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                id="togglePassword1"
+                class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600"
+                tabindex="-1"
+              >
+                <i class="material-icons text-md" id="eyeIcon1">visibility</i>
+              </button>
+            </div>
+            <ul id="passwordErrors" class="text-sm mt-2 space-y-1">
+              <li id="emptyError" class="text-red-600">
+                <span id="emptyIcon">❌</span> O campo de senha não pode estar
+                vazio.
+              </li>
+              <li id="lengthError" class="text-red-600">
+                <span id="lengthIcon">❌</span> A senha deve ter pelo menos 8
+                caracteres.
+              </li>
+              <li id="sequenceError" class="text-red-600">
+                <span id="sequenceIcon">❌</span> A senha não pode ter sequência
+                de 5 letras ou números consecutivos (ex: abcde, 12345).
+              </li>
+              <li id="missingSpecialCareError" class="text-red-600">
+                <span id="missingSpecialCareIcon">❌</span> A senha deve conter
+                pelo menos 1 caractere especial.
+              </li>
+              <li id="matchError" class="text-red-600">
+                <span id="matchIcon">❌</span> As senhas devem ser iguais.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <label
+              for="id_password2"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Confirmar Senha</label
+            >
+            <div class="relative">
+              <input
+                type="password"
+                name="password2"
+                id="id_password2"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="button"
+                id="togglePassword2"
+                class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600"
+                tabindex="-1"
+              >
+                <i class="material-icons text-md" id="eyeIcon2">visibility</i>
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            id="submitBtn"
+            class="w-full bg-gray-400 text-white py-2 rounded-lg transition cursor-not-allowed"
+          >
+            Registrar
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="{% static 'users/js/register.js' %}"></script>
+  </body>
 </html>
