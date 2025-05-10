@@ -86,7 +86,7 @@
 
         function updateComments() {
             $.ajax({
-                url: `/api/forum/post/${postId}/comments/`,
+                url: `/api/forum/posts/${postId}/comments/`,
                 method: 'GET',
                 success: function (data) {
                     $('#comments').empty();
