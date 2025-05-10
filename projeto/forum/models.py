@@ -6,8 +6,8 @@ from quizz.models import Course
 from quizz.models.SoftDeleteModel import SoftDeleteModel
 
 
-def validate_content_length(self, value):
-    if len(value) > 5001:
+def validate_content_length( value):
+    if len(value) > 5000:
         raise ValidationError('o conteúdo não pode exceder a 5000 caracteres')
 
 

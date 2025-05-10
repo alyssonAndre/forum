@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed de Posts - Fórum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold text-gray-800">Feed de Posts</h1>
+</div>
+
+<div id="posts-container" class="max-w-7xl mx-auto px-4">
+</div>
+
+<script src="{% static 'forum/js/post_list.js' %}"></script>
+</body>
+</html>

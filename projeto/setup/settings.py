@@ -65,7 +65,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'setup.wsgi.application'
+WSGI_APPLICATION = 'setup.wsgi.application'
 
 ASGI_APPLICATION = "setup.application"
 
@@ -132,6 +132,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  # Pasta estática global
     BASE_DIR / "components" / "static",  # Inclui a pasta 'static' dentro de 'components'
     BASE_DIR / "quizz" / "static",  # Inclui a pasta 'static' dentro de 'quizz'
+    BASE_DIR / "forum" / "static",  # Inclui a pasta 'static' dentro de 'forum'
 ]
 
 
