@@ -21,16 +21,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # AllAuth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google', 
+    'allauth.socialaccount.providers.google',
+    'channels',
 
+    #Apps
     'rest_framework',
     'quizz',
     'users',
-
+    'forum',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'setup.wsgi.application'
 
+ASGI_APPLICATION = "setup.application"
+
+# django channels
+
+CHANNEL_LAYERS = {
+    "default": {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('redis', 6379)],
+        },
+    },
+}
 
 
 DATABASES = {
@@ -128,6 +143,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  # Pasta estática global
     BASE_DIR / "components" / "static",  # Inclui a pasta 'static' dentro de 'components'
     BASE_DIR / "quizz" / "static",  # Inclui a pasta 'static' dentro de 'quizz'
+    BASE_DIR / "forum" / "static",  # Inclui a pasta 'static' dentro de 'forum'
 ]
 
 

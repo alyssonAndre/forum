@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold text-gray-800">{{ post.title }}</h1>
+    <p class="text-gray-600 mt-2">{{ post.content }}</p>
+</div>
+
+<hr class="my-6">
+
+<h3 class="text-2xl font-semibold text-gray-800">Comentários</h3>
+
+<div id="comments" class="space-y-4 mt-4">
+    {% for comment in comments %}
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <p class="text-sm text-gray-600"><strong>{{ comment.author.username }}</strong>: {{ comment.content }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<hr class="my-6">
+
+<div class="mt-6">
+    <textarea id="commentInput"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Escreva um comentário..."></textarea>
+    <button id="sendComment"
+            class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Enviar Comentário
+    </button>
+</div>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+    const postId = "{{ post.id }}";
+
+    $(document).ready(function () {
+        $('#sendComment').click(function () {
+            const content = $('#commentInput').val().trim();
+            if (content === '') return;
+
+            $.ajax({
+                url: `/api/forum/posts/${postId}/comments/`,
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({ content: content, post: postId }),
+                success: function (data) {
+                    const newComment = `<div class="bg-white p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-gray-600"><strong>${data.author.username}</strong>: ${data.content}</p>
+                            </div>`;
+                    $('#comments').append(newComment);
+                    $('#commentInput').val('');
+                },
+                error: function (xhr) {
+                    alert('Erro ao enviar comentário: ' + xhr.responseText);
+                }
+            });
+        });
+
+        function updateComments() {
+            $.ajax({
+                url: `/api/forum/posts/${postId}/comments/`,
+                method: 'GET',
+                success: function (data) {
+                    $('#comments').empty();
+
+                    data.forEach(function (comment) {
+                        const newComment = `<div class="bg-white p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-gray-600"><strong>${comment.author.username}</strong>: ${comment.content}</p>
+                            </div>`;
+                        $('#comments').append(newComment);
+                    });
+                },
+                error: function (xhr) {
+                    alert('Erro ao carregar comentários: ' + xhr.responseText);
+                }
+            });
+        }
+
+        setInterval(updateComments, 30000);
+    });
+</script>
+
+</body>
+</html>
