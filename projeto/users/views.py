@@ -49,5 +49,9 @@ class CustomLogoutView(View):
     def get(self, request):
         logout(request)
         messages.success(request, 'You have been logged out.')
-        return redirect('login')
+        return redirect('index')
 
+class CustomProfileView(LoginView):
+    template_name = 'users/profile.html'
+    authentication_form = CustomLoginForm
+    success_url = reverse_lazy('quizz:index')
