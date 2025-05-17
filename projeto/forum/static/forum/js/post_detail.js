@@ -1,14 +1,18 @@
-// Palavrões para censura
-const badWords = [
-    "merda",
-    "porra",
-    "caralho",
-    "fdp",
-    "foda",
-    "puta",
-    "pqp",
-    "cacete",
-];
+let badWords = [];
+
+function loadBadWords() {
+    return fetch("/static/forum/js/bad_words.json")
+        .then((res) => {
+            if (!res.ok) throw new Error("Falha ao carregar bad_words.json");
+            return res.json();
+        })
+        .then((data) => {
+            badWords = data;
+        })
+        .catch((err) => {
+            console.error("Erro ao carregar lista de palavras proibidas:", err);
+        });
+}
 
 function formatDateTime(isoDate) {
     const date = new Date(isoDate);
@@ -48,10 +52,12 @@ function getCookie(name) {
 }
 
 const csrftoken = getCookie("csrftoken");
-const postId = document.getElementById("postMain").dataset.postId;
 
-$(document).ready(function () {
-    // Atualiza contador de caracteres
+$(document).ready(async function () {
+    await loadBadWords(); // espera carregar as palavras
+
+    const postId = document.getElementById("postMain").dataset.postId;
+
     $("#commentInput").on("input", function () {
         const len = $(this).val().length;
         $("#charCount").text(`${len}/250`);
