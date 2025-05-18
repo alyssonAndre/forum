@@ -3,6 +3,8 @@ from django.contrib.auth import get_backends,authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
+from users.models import UserProfile
+
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label='Username or Email', required=True)
@@ -40,3 +42,38 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name','email', 'password1', 'password2')
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10',
+                'autocomplete': 'off',
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10',
+                'autocomplete': 'off',
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10',
+                'autocomplete': 'off',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10',
+                'autocomplete': 'off',
+            }),
+        }
+
+class ProfilePhotoForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('photo',)
+        widgets = {
+            'photo': forms.ClearableFileInput(attrs={
+                'class': 'block w-full mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50',
+                'accept': 'image/*',
+            }),
+        }
