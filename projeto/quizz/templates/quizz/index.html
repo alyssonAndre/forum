@@ -1,338 +1,354 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
     />
     <link
-      rel="stylesheet"
-      href="{% static 'quizz/css/index.css' %}"
-      media="screen"
+            rel="stylesheet"
+            href="{% static 'quizz/css/index.css' %}"
+            media="screen"
     />
     <title>Teste Vocacional</title>
-  </head>
-  <body class="bg-gray-100 relative">
+</head>
+<body class="bg-gray-100 relative">
+<div
+        id="loader"
+        class="fixed inset-0 bg-white flex items-center justify-center z-50"
+>
+    <div class="loader border-8 border-gray-300 rounded-full w-16 h-16"></div>
+</div>
+
+<nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-40">
     <div
-      id="loader"
-      class="fixed inset-0 bg-white flex items-center justify-center z-50"
+            class="container mx-auto flex items-center justify-between py-4 px-6"
     >
-      <div class="loader border-8 border-gray-300 rounded-full w-16 h-16"></div>
-    </div>
-
-    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-40">
-      <div
-        class="container mx-auto flex items-center justify-between py-4 px-6"
-      >
         <a
-          href="/"
-          class="text-2xl font-bold text-blue-700 hover:text-blue-900 transition"
-          >Teste Vocacional</a
+                href="/"
+                class="text-2xl font-bold text-blue-700 hover:text-blue-900 transition"
+        >Teste Vocacional</a
         >
-        <div class="space-x-6">
-          <a
-            href="{% url 'register' %}"
-            class="text-blue-600 hover:text-blue-900 font-semibold transition"
-            >Criar Conta</a
-          >
-          <a
-            href="{% url 'login' %}"
-            class="text-blue-600 hover:text-blue-900 font-semibold transition"
-            >Fazer Login</a
-          >
-        </div>
-      </div>
-    </nav>
+        {% if user.is_authenticated %}
+            <div class="space-x-6">
+                <a href="{% url 'post_list' %}"
+                   class="text-blue-600 hover:text-blue-900 font-semibold transition"
+                >Forum</a>
+                <a href="{% url 'profile' %}"
+                   class="text-blue-600 hover:text-blue-900 font-semibold transition"
+                >Perfil</a>
 
-    <main class="pt-20">
-      <section
-        class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-700 to-blue-900 text-white text-center px-6 md:px-0"
-      >
+                <a href="{% url 'logout' %}"
+                   class="text-blue-600 hover:text-blue-900 font-semibold transition"
+                >Logout</a>
+            </div>
+
+        {% else %}
+            <div class="space-x-6">
+                <a
+                        href="{% url 'register' %}"
+                        class="text-blue-600 hover:text-blue-900 font-semibold transition"
+                >Criar Conta</a
+                >
+                <a
+                        href="{% url 'login' %}"
+                        class="text-blue-600 hover:text-blue-900 font-semibold transition"
+                >Fazer Login</a
+                >
+            </div>
+        {% endif %}
+    </div>
+</nav>
+
+<main class="pt-20">
+    <section
+            class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-700 to-blue-900 text-white text-center px-6 md:px-0"
+    >
         <h1 class="text-5xl md:text-6xl font-extrabold mb-6 animate-fadeInDown">
-          Descubra sua <span class="text-yellow-400">Carreira Ideal!</span>
+            Descubra sua <span class="text-yellow-400">Carreira Ideal!</span>
         </h1>
         <p class="text-xl md:text-2xl max-w-xl mb-10 animate-fadeInUp">
-          Faça nosso teste vocacional e encontre os caminhos profissionais que
-          mais combinam com você.
+            Faça nosso teste vocacional e encontre os caminhos profissionais que
+            mais combinam com você.
         </p>
         <a
-          href="{% url 'teste-vocacional' %}"
-          class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-10 rounded-full text-2xl shadow-lg transition transform hover:scale-105 animate-bounce"
-          >Iniciar Quiz</a
+                href="{% url 'teste-vocacional' %}"
+                class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-10 rounded-full text-2xl shadow-lg transition transform hover:scale-105 animate-bounce"
+        >Iniciar Quiz</a
         >
-      </section>
+    </section>
 
-      <section class="bg-white py-16 px-6 md:px-0">
+    <section class="bg-white py-16 px-6 md:px-0">
         <div class="container mx-auto max-w-4xl text-center">
-          <h2 class="text-4xl font-bold mb-8 text-blue-900 animate-fadeInUp">
-            Objetivo do Quiz
-          </h2>
-          <p
-            class="text-lg mb-12 text-gray-700 leading-relaxed animate-fadeInUp delay-150"
-          >
-            Nosso teste foi desenvolvido para ajudar você a descobrir suas
-            habilidades e preferências profissionais, sugerindo carreiras que
-            combinam com seu perfil e potencial.
-          </p>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-blue-700">
-            <div
-              class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-300"
+            <h2 class="text-4xl font-bold mb-8 text-blue-900 animate-fadeInUp">
+                Objetivo do Quiz
+            </h2>
+            <p
+                    class="text-lg mb-12 text-gray-700 leading-relaxed animate-fadeInUp delay-150"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-12 w-12 mx-auto mb-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12h6m-3-3v6"
-                />
-              </svg>
-              <h3 class="text-xl font-semibold mb-2">Análise Profunda</h3>
-              <p>Questões que avaliam seus interesses e habilidades reais.</p>
+                Nosso teste foi desenvolvido para ajudar você a descobrir suas
+                habilidades e preferências profissionais, sugerindo carreiras que
+                combinam com seu perfil e potencial.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-blue-700">
+                <div
+                        class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-300"
+                >
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-12 w-12 mx-auto mb-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                    >
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 12h6m-3-3v6"
+                        />
+                    </svg>
+                    <h3 class="text-xl font-semibold mb-2">Análise Profunda</h3>
+                    <p>Questões que avaliam seus interesses e habilidades reais.</p>
+                </div>
+                <div
+                        class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-400"
+                >
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-12 w-12 mx-auto mb-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                    >
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"
+                        />
+                    </svg>
+                    <h3 class="text-xl font-semibold mb-2">
+                        Resultados Personalizados
+                    </h3>
+                    <p>Recomendações que combinam com o seu perfil único.</p>
+                </div>
+                <div
+                        class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-500"
+                >
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-12 w-12 mx-auto mb-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                    >
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 8v4l3 3"
+                        />
+                    </svg>
+                    <h3 class="text-xl font-semibold mb-2">Orientação de Carreira</h3>
+                    <p>Dicas de cursos e áreas para você investir no futuro.</p>
+                </div>
             </div>
-            <div
-              class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-400"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-12 w-12 mx-auto mb-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              <h3 class="text-xl font-semibold mb-2">
-                Resultados Personalizados
-              </h3>
-              <p>Recomendações que combinam com o seu perfil único.</p>
-            </div>
-            <div
-              class="p-6 border rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 animate-fadeInUp delay-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-12 w-12 mx-auto mb-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3"
-                />
-              </svg>
-              <h3 class="text-xl font-semibold mb-2">Orientação de Carreira</h3>
-              <p>Dicas de cursos e áreas para você investir no futuro.</p>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="bg-gray-100 py-16 px-6 md:px-0">
+    <section class="bg-gray-100 py-16 px-6 md:px-0">
         <div class="container mx-auto max-w-5xl text-center">
-          <h2 class="text-4xl font-bold mb-10 text-blue-900">
-            Quem já fez recomenda 🎯
-          </h2>
-          <div class="grid md:grid-cols-3 gap-8">
-            <div
-              class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
-            >
-              <p class="text-gray-600 italic mb-4">
-                "Descobri que minha vocação era bem diferente do que eu
-                imaginava. Agora estou muito mais confiante!"
-              </p>
-              <h4 class="font-bold text-blue-700">Mariana, 18 anos</h4>
+            <h2 class="text-4xl font-bold mb-10 text-blue-900">
+                Quem já fez recomenda 🎯
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
+                >
+                    <p class="text-gray-600 italic mb-4">
+                        "Descobri que minha vocação era bem diferente do que eu
+                        imaginava. Agora estou muito mais confiante!"
+                    </p>
+                    <h4 class="font-bold text-blue-700">Mariana, 18 anos</h4>
+                </div>
+                <div
+                        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
+                >
+                    <p class="text-gray-600 italic mb-4">
+                        "Esse teste me abriu os olhos! Já até comecei um curso na área
+                        que foi sugerida."
+                    </p>
+                    <h4 class="font-bold text-blue-700">Carlos, 22 anos</h4>
+                </div>
+                <div
+                        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
+                >
+                    <p class="text-gray-600 italic mb-4">
+                        "Recomendo pra todo mundo que ainda está perdido na escolha da
+                        carreira. Muito bem feito!"
+                    </p>
+                    <h4 class="font-bold text-blue-700">Lívia, 17 anos</h4>
+                </div>
             </div>
-            <div
-              class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
-            >
-              <p class="text-gray-600 italic mb-4">
-                "Esse teste me abriu os olhos! Já até comecei um curso na área
-                que foi sugerida."
-              </p>
-              <h4 class="font-bold text-blue-700">Carlos, 22 anos</h4>
-            </div>
-            <div
-              class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition"
-            >
-              <p class="text-gray-600 italic mb-4">
-                "Recomendo pra todo mundo que ainda está perdido na escolha da
-                carreira. Muito bem feito!"
-              </p>
-              <h4 class="font-bold text-blue-700">Lívia, 17 anos</h4>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="bg-white py-20 px-6 md:px-0">
+    <section class="bg-white py-20 px-6 md:px-0">
         <div class="container mx-auto max-w-4xl text-center">
-          <h2 class="text-4xl font-bold mb-10 text-blue-900">
-            Como funciona o teste?
-          </h2>
-          <div class="grid md:grid-cols-3 gap-8 text-left">
-            <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2">
-                1. Responda o questionário
-              </h3>
-              <p class="text-gray-700">
-                Perguntas simples e objetivas sobre seus interesses e
-                preferências.
-              </p>
+            <h2 class="text-4xl font-bold mb-10 text-blue-900">
+                Como funciona o teste?
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2">
+                        1. Responda o questionário
+                    </h3>
+                    <p class="text-gray-700">
+                        Perguntas simples e objetivas sobre seus interesses e
+                        preferências.
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2">
+                        2. Veja seus resultados
+                    </h3>
+                    <p class="text-gray-700">
+                        Uma análise completa com carreiras que têm a ver com você.
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2">3. Comece a planejar</h3>
+                    <p class="text-gray-700">
+                        Receba orientações sobre cursos, áreas de atuação e próximos
+                        passos.
+                    </p>
+                </div>
             </div>
-            <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2">
-                2. Veja seus resultados
-              </h3>
-              <p class="text-gray-700">
-                Uma análise completa com carreiras que têm a ver com você.
-              </p>
-            </div>
-            <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2">3. Comece a planejar</h3>
-              <p class="text-gray-700">
-                Receba orientações sobre cursos, áreas de atuação e próximos
-                passos.
-              </p>
-            </div>
-          </div>
         </div>
-      </section>
+    </section>
 
-      <section class="bg-gray-50 py-16 px-6 md:px-0">
+    <section class="bg-gray-50 py-16 px-6 md:px-0">
         <div class="container mx-auto max-w-4xl text-center">
-          <h2 class="text-4xl font-bold mb-6 text-blue-900">
-            Fórum de Discussões
-          </h2>
-          <p class="text-lg text-gray-700 mb-10">
-            Além do teste, oferecemos um fórum ativo onde você pode acompanhar
-            postagens e discussões frequentes sobre cursos, áreas profissionais
-            e experiências de outros usuários.
-          </p>
-          <div class="grid md:grid-cols-3 gap-8 text-left">
-            <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2 text-blue-800">
-                Depoimentos e Experiências
-              </h3>
-              <p class="text-gray-700">
-                Veja relatos reais de pessoas que já iniciaram cursos e
-                carreiras com base no teste.
-              </p>
+            <h2 class="text-4xl font-bold mb-6 text-blue-900">
+                Fórum de Discussões
+            </h2>
+            <p class="text-lg text-gray-700 mb-10">
+                Além do teste, oferecemos um fórum ativo onde você pode acompanhar
+                postagens e discussões frequentes sobre cursos, áreas profissionais
+                e experiências de outros usuários.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8 text-left">
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-800">
+                        Depoimentos e Experiências
+                    </h3>
+                    <p class="text-gray-700">
+                        Veja relatos reais de pessoas que já iniciaram cursos e
+                        carreiras com base no teste.
+                    </p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-800">
+                        Discussões sobre Cursos
+                    </h3>
+                    <p class="text-gray-700">
+                        Acompanhe análises e comparações entre diferentes cursos, suas
+                        oportunidades e desafios.
+                    </p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-800">
+                        Espaço para Tirar Dúvidas
+                    </h3>
+                    <p class="text-gray-700">
+                        Interaja com outros usuários e especialistas para esclarecer
+                        suas dúvidas vocacionais.
+                    </p>
+                </div>
             </div>
-            <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2 text-blue-800">
-                Discussões sobre Cursos
-              </h3>
-              <p class="text-gray-700">
-                Acompanhe análises e comparações entre diferentes cursos, suas
-                oportunidades e desafios.
-              </p>
-            </div>
-            <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
-              <h3 class="text-xl font-semibold mb-2 text-blue-800">
-                Espaço para Tirar Dúvidas
-              </h3>
-              <p class="text-gray-700">
-                Interaja com outros usuários e especialistas para esclarecer
-                suas dúvidas vocacionais.
-              </p>
-            </div>
-          </div>
-          <a
-            href="/forum/"
-            class="mt-10 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105"
-          >
-            Acessar o Fórum
-          </a>
+            <a
+                    href="/forum/"
+                    class="mt-10 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105"
+            >
+                Acessar o Fórum
+            </a>
         </div>
-      </section>
+    </section>
 
-      <section class="bg-white py-20 px-6 md:px-0">
+    <section class="bg-white py-20 px-6 md:px-0">
         <div class="container mx-auto max-w-4xl">
-          <h2 class="text-4xl font-bold text-center text-blue-900 mb-10">
-            Perguntas Frequentes
-          </h2>
-          <div class="space-y-6">
-            <details class="bg-white p-4 rounded-lg shadow-sm">
-              <summary class="cursor-pointer font-semibold text-blue-700">
-                O teste é gratuito?
-              </summary>
-              <p class="mt-2 text-gray-700">
-                Sim! O teste é totalmente gratuito e você pode refazê-lo quando
-                quiser.
-              </p>
-            </details>
-            <details class="bg-white p-4 rounded-lg shadow-sm">
-              <summary class="cursor-pointer font-semibold text-blue-700">
-                Quantas perguntas tem o quiz?
-              </summary>
-              <p class="mt-2 text-gray-700">
-                São aproximadamente 10 perguntas rápidas e fáceis de responder.
-              </p>
-            </details>
-            <details class="bg-white p-4 rounded-lg shadow-sm">
-              <summary class="cursor-pointer font-semibold text-blue-700">
-                Preciso criar conta para fazer o teste?
-              </summary>
-              <p class="mt-2 text-gray-700">
-                Sim, vocé precisa criar uma conta para fazer o teste.
-              </p>
-            </details>
-          </div>
+            <h2 class="text-4xl font-bold text-center text-blue-900 mb-10">
+                Perguntas Frequentes
+            </h2>
+            <div class="space-y-6">
+                <details class="bg-white p-4 rounded-lg shadow-sm">
+                    <summary class="cursor-pointer font-semibold text-blue-700">
+                        O teste é gratuito?
+                    </summary>
+                    <p class="mt-2 text-gray-700">
+                        Sim! O teste é totalmente gratuito e você pode refazê-lo quando
+                        quiser.
+                    </p>
+                </details>
+                <details class="bg-white p-4 rounded-lg shadow-sm">
+                    <summary class="cursor-pointer font-semibold text-blue-700">
+                        Quantas perguntas tem o quiz?
+                    </summary>
+                    <p class="mt-2 text-gray-700">
+                        São aproximadamente 10 perguntas rápidas e fáceis de responder.
+                    </p>
+                </details>
+                <details class="bg-white p-4 rounded-lg shadow-sm">
+                    <summary class="cursor-pointer font-semibold text-blue-700">
+                        Preciso criar conta para fazer o teste?
+                    </summary>
+                    <p class="mt-2 text-gray-700">
+                        Sim, vocé precisa criar uma conta para fazer o teste.
+                    </p>
+                </details>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section
-        class="bg-gradient-to-r from-green-500 to-green-600 text-white py-16 text-center px-6 md:px-0"
-      >
+    <section
+            class="bg-gradient-to-r from-green-500 to-green-600 text-white py-16 text-center px-6 md:px-0"
+    >
         <div class="container mx-auto max-w-2xl">
-          <h2 class="text-4xl font-bold mb-6">
-            Pronto para descobrir seu futuro?
-          </h2>
-          <p class="text-lg mb-8">
-            Não perca mais tempo com dúvidas! Dê o primeiro passo agora mesmo.
-            🚀
-          </p>
-          <a
-            href="{% url 'teste-vocacional' %}"
-            class="bg-white text-green-600 font-bold py-4 px-10 rounded-full text-xl shadow-lg transition transform hover:scale-105"
+            <h2 class="text-4xl font-bold mb-6">
+                Pronto para descobrir seu futuro?
+            </h2>
+            <p class="text-lg mb-8">
+                Não perca mais tempo com dúvidas! Dê o primeiro passo agora mesmo.
+                🚀
+            </p>
+            <a
+                    href="{% url 'teste-vocacional' %}"
+                    class="bg-white text-green-600 font-bold py-4 px-10 rounded-full text-xl shadow-lg transition transform hover:scale-105"
             >Fazer o Teste</a
-          >
+            >
         </div>
-      </section>
-    </main>
+    </section>
+</main>
 
-    <footer class="bg-gray-800 text-white py-6 mt-12">
-      <div class="container mx-auto text-center text-sm">
+<footer class="bg-gray-800 text-white py-6 mt-12">
+    <div class="container mx-auto text-center text-sm">
         &copy; <span id="current-year"></span> Teste Vocacional. Todos os
         direitos reservados.
-      </div>
-    </footer>
-    <script>
-      window.addEventListener("load", () => {
+    </div>
+</footer>
+<script>
+    window.addEventListener("load", () => {
         const loader = document.getElementById("loader");
         loader.classList.add("opacity-0");
         setTimeout(() => (loader.style.display = "none"), 500);
         document.getElementById("current-year").textContent =
-          new Date().getFullYear();
-      });
-    </script>
-    <script src="{% static 'quizz/js/index.js' %}"></script>
-  </body>
+            new Date().getFullYear();
+    });
+</script>
+<script src="{% static 'quizz/js/index.js' %}"></script>
+</body>
 </html>
