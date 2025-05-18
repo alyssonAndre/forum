@@ -9,6 +9,8 @@ class UserProfile(SoftDeleteModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     courses = models.ForeignKey(Course, blank=True, null=True, on_delete=models.CASCADE)
     attempts = models.IntegerField(default=0)
+    photo = models.ImageField(upload_to='profile_photos', blank=True, null=True)
+    last_attempt_date = models.DateField(null=True, blank=True)
 
 
     def __str__(self):
