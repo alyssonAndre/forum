@@ -1,74 +1,109 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Feed de Posts - Fórum</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{% static 'forum/css/post_list.css' %}" />
-  </head>
+    <link rel="stylesheet" href="{% static 'forum/css/post_list.css' %}"/>
+</head>
 
-  <body class="bg-gray-100 font-sans antialiased">
-    <!-- Barra Superior -->
-    <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+<body class="bg-gray-100 font-sans antialiased">
+<!-- Barra Superior -->
+<nav class="bg-white shadow-md p-4 flex justify-between items-center">
       <span class="text-xl font-semibold text-gray-800"
-        >👋 Bem-vindo, {{ user.username }}</span
+      >👋 Bem-vindo, {{ user.username }}</span
       >
 
-      <div class="relative">
+    <div class="relative">
         <button
-          id="profileBtn"
-          class="flex items-center space-x-1 text-gray-700 hover:text-blue-600"
+                id="profileBtn"
+                class="flex items-center space-x-1 text-gray-700 hover:text-blue-600"
         >
-          <span class="material-symbols-outlined">account_circle</span>
+                <span class="material-symbols-outlined p-0 m-0">
+        <img
+                id="profilePhoto"
+                src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}https://cdn-icons-png.flaticon.com/512/149/149071.png{% endif %}"
+                alt="Foto do usuário"
+                class="w-10 h-10 rounded-full object-cover"
+        />
+    </span>
         </button>
         <div
-          id="profileMenu"
-          class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                id="profileMenu"
+                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50"
         >
-         <a
-            href="{% url 'profile' %}"
-            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <span class="material-symbols-outlined mr-2">person</span> Ver Perfil
-          </a>
 
-          <a
-            href="{% url 'post_create' %}"
-            class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            <span class="material-symbols-outlined mr-2">post_add</span> Criar
-            Post
-          </a>
-          <button
-            id="logoutBtn"
-            class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-          >
-            <span class="material-symbols-outlined mr-2">logout</span> Logout
-          </button>
+
+            <a
+                    href="{% url 'index' %}"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+                <span class="material-symbols-outlined mr-2">Home</span> Home
+
+            </a>
+            {% if quiz_attempts %}
+                <span
+                        class="flex items-center px-4 py-2 text-sm text-gray-400 cursor-not-allowed"
+                        title="Limite de tentativas atingido"
+                >
+        <span class="material-symbols-outlined mr-2">Checklist</span> Quiz (bloqueado)
+    </span>
+            {% else %}
+                <a
+                        href="{% url 'teste-vocacional' %}"
+                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                    <span class="material-symbols-outlined mr-2">Checklist</span> Quiz
+                </a>
+            {% endif %}
+
+            <a
+                    href="{% url 'profile' %}"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+                <span class="material-symbols-outlined mr-2">person</span> Ver Perfil
+            </a>
+
+            <a
+                    href="{% url 'post_create' %}"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+                <span class="material-symbols-outlined mr-2">post_add</span> Criar
+                Post
+            </a>
+
+
+
+            <button
+                    id="logoutBtn"
+                    class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+            >
+                <span class="material-symbols-outlined mr-2">logout</span> Logout
+            </button>
         </div>
-      </div>
-    </nav>
-
-    <!-- Loader -->
-    <div id="loader" class="flex justify-center items-center h-screen">
-      <div class="loader"></div>
     </div>
+</nav>
 
-    <!-- Conteúdo -->
-    <div id="main-content" class="hidden">
-      <div class="max-w-7xl mx-auto px-4 py-6">
+<!-- Loader -->
+<div id="loader" class="flex justify-center items-center h-screen">
+    <div class="loader"></div>
+</div>
+
+<!-- Conteúdo -->
+<div id="main-content" class="hidden">
+    <div class="max-w-7xl mx-auto px-4 py-6">
         <h1 class="text-3xl font-bold text-gray-800">Feed de Posts</h1>
-      </div>
-
-      <div id="posts-container" class="max-w-7xl mx-auto px-4"></div>
     </div>
-    <script src="{% static 'forum/js/post_list.js' %}"></script>
-  </body>
+
+    <div id="posts-container" class="max-w-7xl mx-auto px-4"></div>
+</div>
+<script src="{% static 'forum/js/post_list.js' %}"></script>
+</body>
 </html>
