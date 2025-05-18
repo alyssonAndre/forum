@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import ValidationError
@@ -23,11 +24,19 @@ class QuestionListView(generics.ListAPIView):
     def get_queryset(self):
         received_ids = self.request.query_params.getlist("received", [])
         user = self.request.user
+        today = timezone.now().date()
 
-        if user.profile.attempts >=3:
+        if user.profile.last_attempt_date != today:
+            user.profile.attempts = 0
+            user.profile.last_attempt_date = today
+            user.profile.save()
+
+        if user.profile.attempts >= 3:
             raise ValidationError(
                 "Você já atingiu o limite de 3 tentativas para o teste vocacional."
             )
+        user.profile.attempts += 1
+        user.profile.save()
 
         try:
             received_ids = list(map(int, received_ids))
