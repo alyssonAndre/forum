@@ -53,8 +53,24 @@ function getCookie(name) {
 
 const csrftoken = getCookie("csrftoken");
 
+function showLoader() {
+    $("#loaderOverlay").removeClass("hidden");
+    return performance.now();
+}
+
+function hideLoaderWithDelay(startTime, minDuration = 700) {
+    const elapsed = performance.now() - startTime;
+    const delay = elapsed < minDuration ? minDuration - elapsed : 0;
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            $("#loaderOverlay").addClass("hidden");
+            resolve();
+        }, delay);
+    });
+}
+
 $(document).ready(async function () {
-    await loadBadWords(); // espera carregar as palavras
+    await loadBadWords();
 
     const postId = document.getElementById("postMain").dataset.postId;
 
@@ -63,7 +79,6 @@ $(document).ready(async function () {
         $("#charCount").text(`${len}/250`);
     });
 
-    // Envio do comentário
     $("#sendComment").click(function () {
         let content = $("#commentInput").val().trim();
         if (content === "" || content.length > 250) return;
@@ -72,7 +87,7 @@ $(document).ready(async function () {
 
         const sendBtn = $("#sendComment");
         sendBtn.prop("disabled", true).text("Enviando...");
-        $("#loaderOverlay").removeClass("hidden");
+        const loaderStart = showLoader();
 
         $.ajax({
             url: `/api/forum/posts/${postId}/comments/`,
@@ -94,34 +109,34 @@ $(document).ready(async function () {
                 $("#commentInput").val("");
                 $("#charCount").text("0/250");
                 sendBtn.prop("disabled", false).text("Enviar Comentário");
-                $("#loaderOverlay").addClass("hidden");
 
-                Swal.fire({
-                    toast: true,
-                    position: "bottom-end",
-                    icon: "success",
-                    title: "Comentário adicionado com sucesso!",
-                    showConfirmButton: false,
-                    timer: 5000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener("mouseenter", Swal.stopTimer);
-                        toast.addEventListener("mouseleave", Swal.resumeTimer);
-                    },
+                hideLoaderWithDelay(loaderStart).then(() => {
+                    Swal.fire({
+                        toast: true,
+                        position: "bottom-end",
+                        icon: "success",
+                        title: "Comentário adicionado com sucesso!",
+                        showConfirmButton: false,
+                        timer: 5000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener("mouseenter", Swal.stopTimer);
+                            toast.addEventListener("mouseleave", Swal.resumeTimer);
+                        },
+                    });
+                    $("#comments").scrollTop(0);
                 });
-                $("#comments").scrollTop(0);
             },
             error: function (xhr) {
                 alert("Erro ao enviar comentário: " + xhr.responseText);
                 sendBtn.prop("disabled", false).text("Enviar Comentário");
-                $("#loaderOverlay").addClass("hidden");
+                hideLoaderWithDelay(loaderStart);
             },
         });
     });
 
-    // Atualiza a lista de comentários a cada 30s
     function updateComments() {
-        $("#loaderOverlay").removeClass("hidden"); // mostra loader
+        const loaderStart = showLoader();
 
         $.ajax({
             url: `/api/forum/posts/${postId}/comments/`,
@@ -136,11 +151,11 @@ $(document).ready(async function () {
                 </div>`;
                     $("#comments").append(newComment);
                 });
-                $("#loaderOverlay").addClass("hidden"); // esconde loader após sucesso
+                hideLoaderWithDelay(loaderStart);
             },
             error: function (xhr) {
                 alert("Erro ao carregar comentários: " + xhr.responseText);
-                $("#loaderOverlay").addClass("hidden"); // esconde loader em erro também
+                hideLoaderWithDelay(loaderStart);
             },
         });
     }
