@@ -1,181 +1,137 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Perfil do Usuário</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{% static 'users/css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'users/css/profile.css' %}"/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet"
     />
-  </head>
-  <body
-    class="bg-gray-100 min-h-screen flex flex-col items-center p-6 font-sans"
-  >
-    <!-- Botão voltar com só seta -->
-    <div class="w-full max-w-7xl flex items-center mb-6 px-6">
-      <a
-        href="{% url 'post_list' %}"
-        class="fixed top-4 left-4 flex items-center text-blue-600 hover:text-blue-800 bg-white px-3 py-2 rounded-md shadow-md z-50"
-        title="Voltar para o fórum"
-      >
+</head>
+<body
+        class="bg-gray-100 min-h-screen flex flex-col items-center p-6 font-sans"
+>
+{% if messages %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    {% for message in messages %}
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: '{{ message.tags }}',
+        title: '{{ message|escapejs }}',
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+      });
+    {% endfor %}
+  });
+</script>
+{% endif %}
+<div class="w-full max-w-7xl flex items-center mb-6 px-6">
+    <a
+            href="{% url 'post_list' %}"
+            class="fixed top-4 left-4 flex items-center text-blue-600 hover:text-blue-800 bg-white px-3 py-2 rounded-md shadow-md z-50"
+            title="Voltar para o fórum"
+    >
         <span class="material-symbols-outlined mr-1">arrow_back</span>
         Voltar
-      </a>
-    </div>
+    </a>
+</div>
 
-    <!-- Título Dados do Perfil fora do quadro -->
-    <div class="w-full max-w-7xl px-6 mb-10">
-      <h2 class="text-3xl font-bold text-gray-800">Dados do Perfil</h2>
-    </div>
-    <!-- Quadro principal aumentado e responsivo -->
+<div class="w-full max-w-7xl px-6 mb-10">
+    <h2 class="text-3xl font-bold text-gray-800">Dados do Perfil</h2>
+</div>
+<div
+        class="w-full max-w-7xl bg-white rounded-lg shadow-md p-6 md:p-8 mx-4 md:mx-6 flex flex-col md:flex-row gap-8 md:gap-12 min-h-[500px] max-w-[1500px]"
+>
     <div
-      class="w-full max-w-7xl bg-white rounded-lg shadow-md p-6 md:p-8 mx-4 md:mx-6 flex flex-col md:flex-row gap-8 md:gap-12 min-h-[500px] max-w-[1500px]"
+            class="w-full md:w-1/3 md:h-auto rounded-lg overflow-hidden mx-auto md:mx-0 bg-white flex justify-center items-center"
     >
-      <!-- Coluna da foto -->
-      <div
-        class="w-full md:w-1/3 md:h-auto rounded-lg overflow-hidden mx-auto md:mx-0 bg-white flex justify-center items-center"
-      >
         <img
-          id="profilePhoto"
-          src="{% if user.profile_photo_url %}{{ user.profile_photo_url }}{% else %}https://cdn-icons-png.flaticon.com/512/149/149071.png{% endif %}"
-          alt="Foto do usuário"
-          class="max-w-full max-h-full object-contain"
+                id="profilePhoto"
+                src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}https://cdn-icons-png.flaticon.com/512/149/149071.png{% endif %}"
+                alt="Foto do usuário"
+                class="max-w-full max-h-full object-contain"
         />
-      </div>
 
-      <!-- Coluna dos campos e botão -->
-      <div class="flex-1 flex flex-col">
-        <!-- Botão salvar no topo, alinhado à direita -->
-        <div class="flex justify-end mb-6">
-          <button
-            id="btnSave"
-            disabled
-            class="bg-blue-600 disabled:bg-blue-300 text-white font-semibold py-2 px-6 rounded hover:bg-blue-700 disabled:cursor-not-allowed flex items-center gap-2 transition"
-            type="submit"
-            form="profileForm"
-          >
-            <svg
-              id="btnSaveSpinner"
-              class="hidden animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8"
-                stroke-linecap="round"
-                stroke-width="4"
-                stroke="currentColor"
-                stroke-opacity="0.8"
-              ></path>
-            </svg>
-            <span id="btnSaveText">Salvar</span>
-          </button>
+    </div>
+
+
+    <form method="post" enctype="multipart/form-data" id="profileForm" class="space-y-6 flex-1 overflow-auto"
+          autocomplete="off">
+        {% csrf_token %}
+
+        <div>
+            <label for="{{ form.username.id_for_label }}" class="block text-gray-700 font-medium mb-1">Usuário</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="text-red-600">{{ form.username.errors }}</div>
+            {% endif %}
         </div>
 
-        <!-- Formulário -->
-        <form
-          id="profileForm"
-          class="space-y-6 flex-1 overflow-auto"
-          autocomplete="off"
-        >
-          <div>
-            <label for="username" class="block text-gray-700 font-medium mb-1"
-              >Usuário</label
-            >
-            <input
-              type="text"
-              id="username"
-              name="username"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10"
-              value="{{ user.username }}"
-            />
-          </div>
+        <div>
+            <label for="{{ form.first_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">Primeiro
+                Nome</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+                <div class="text-red-600">{{ form.first_name.errors }}</div>
+            {% endif %}
+        </div>
 
-          <div>
-            <label for="firstName" class="block text-gray-700 font-medium mb-1"
-              >Primeiro Nome</label
-            >
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10"
-              value="{{ user.first_name }}"
-            />
-          </div>
+        <div>
+            <label for="{{ form.last_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">Último
+                Nome</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+                <div class="text-red-600">{{ form.last_name.errors }}</div>
+            {% endif %}
+        </div>
 
-          <div>
-            <label for="lastName" class="block text-gray-700 font-medium mb-1"
-              >Último Nome</label
-            >
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10"
-              value="{{ user.last_name }}"
-            />
-          </div>
+        <div>
+            <label for="{{ form.email.id_for_label }}" class="block text-gray-700 font-medium mb-1">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-red-600">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
 
-          <div>
-            <label for="email" class="block text-gray-700 font-medium mb-1"
-              >Email</label
-            >
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-0 pr-10"
-              value="{{ user.email }}"
-            />
-          </div>
+        <div>
+            <label for="{{ profile_form.photo.id_for_label }}" class="block text-gray-700 font-medium mb-1">Foto do
+                Perfil</label>
+            {{ profile_form.photo }}
+            {% if profile_form.photo.errors %}
+                <div class="text-red-600">{{ profile_form.photo.errors }}</div>
+            {% endif %}
+        </div>
 
-          <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-3">
             <span class="font-medium text-gray-700">Status:</span>
             {% if user.is_active %}
-            <span
-              id="status"
-              class="px-3 py-1 rounded-full font-semibold text-white bg-green-500"
-            >
-              Ativo
-            </span>
+                <span id="status" class="px-3 py-1 rounded-full font-semibold text-white bg-green-500">Ativo</span>
             {% else %}
-            <span
-              id="status"
-              class="px-3 py-1 rounded-full font-semibold text-white bg-gray-400"
-            >
-              Inativo
-            </span>
+                <span id="status" class="px-3 py-1 rounded-full font-semibold text-white bg-gray-400">Inativo</span>
             {% endif %}
-          </div>
-        </form>
-      </div>
-    </div>
+        </div>
 
-    <!-- Loader overlay -->
-    <div
-      id="loaderOverlay"
-      class="fixed inset-0 flex items-center justify-center z-50 bg-black/40 hidden"
-    >
-      <div class="loader"></div>
-    </div>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            Salvar
+        </button>
+    </form>
 
-    <script src="{% static 'users/js/profile.js' %}"></script>
-  </body>
+</div>
+<div
+        id="loaderOverlay"
+        class="fixed inset-0 flex items-center justify-center z-50 bg-black/40 hidden"
+>
+    <div class="loader"></div>
+</div>
+
+<script src="{% static 'users/js/profile.js' %}"></script>
+</body>
 </html>
