@@ -1,97 +1,107 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{{ post.title }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{% static 'forum/css/post_detail.css' %}" />
+    <link rel="stylesheet" href="{% static 'forum/css/post_detail.css' %}"/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet"
     />
-  </head>
-  <body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
-    <!-- Botão fixo voltar no canto superior esquerdo -->
-    <a
-      href="{% url 'post_list' %}"
-      class="fixed top-4 left-4 flex items-center text-blue-600 hover:text-blue-800 bg-white px-3 py-2 rounded-md shadow-md z-50"
-      title="Voltar para o fórum"
-    >
-      <span class="material-symbols-outlined mr-1">arrow_back</span>
-      Voltar
-    </a>
+</head>
+<body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
+{% if messages %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        {% for message in messages %}
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                icon: '{{ message.tags }}',
+                title: '{{ message }}',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+            });
+        {% endfor %}
+    </script>
+{% endif %}    <a
+        href="{% url 'post_list' %}"
+        class="fixed top-4 left-4 flex items-center text-blue-600 hover:text-blue-800 bg-white px-3 py-2 rounded-md shadow-md z-50"
+        title="Voltar para o fórum"
+>
+    <span class="material-symbols-outlined mr-1">arrow_back</span>
+    Voltar
+</a>
 
-    <!-- Conteúdo -->
-    <main
-      id="postMain"
-      data-post-id="{{ post.id }}"
-      class="flex-grow max-w-4xl mx-auto px-4 py-6 w-full mt-20"
-    >
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ post.title }}</h1>
-      <p class="text-lg text-gray-700">{{ post.content }}</p>
+<main
+        id="postMain"
+        data-post-id="{{ post.id }}"
+        class="flex-grow max-w-4xl mx-auto px-4 py-6 w-full mt-20"
+>
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ post.title }}</h1>
+    <p class="text-lg text-gray-700">{{ post.content }}</p>
 
-      <hr class="my-6" />
+    <hr class="my-6"/>
 
-      <section>
+    <section>
         <h3 class="text-2xl font-semibold text-gray-800 mb-4">Comentários</h3>
 
-        <!-- Comentários existentes com max-height e scroll -->
         <div
-          id="comments"
-          class="space-y-4 overflow-auto px-2 py-5"
-          style="max-height: 500px; height: 100%"
+                id="comments"
+                class="space-y-4 overflow-auto px-2 py-5"
+                style="max-height: 500px; height: 100%"
         >
-          {% for comment in comments %}
-          <div class="bg-white p-4 rounded-lg shadow-md relative">
-            <p class="text-sm text-gray-600 mb-5">
-              <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
-            </p>
-            <span class="absolute bottom-2 right-3 text-xs text-gray-400">
+            {% for comment in comments %}
+                <div class="bg-white p-4 rounded-lg shadow-md relative">
+                    <p class="text-sm text-gray-600 mb-5">
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
+                    </p>
+                    <span class="absolute bottom-2 right-3 text-xs text-gray-400">
               {{ comment.created_at|date:"d/m/Y, H:i" }}
             </span>
-          </div>
-          {% endfor %}
+                </div>
+            {% endfor %}
         </div>
 
-        <hr class="my-6" />
+        <hr class="my-6"/>
 
-        <!-- Form comentário -->
         <div class="mt-6 relative">
           <textarea
-            id="commentInput"
-            maxlength="250"
-            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            rows="4"
-            placeholder="Escreva um comentário... (máx. 250 caracteres)"
+                  id="commentInput"
+                  maxlength="250"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  rows="4"
+                  placeholder="Escreva um comentário... (máx. 250 caracteres)"
           ></textarea>
-          <div
-            class="absolute bottom-3 right-4 text-sm text-gray-400 select-none"
-            id="charCount"
-          >
-            0/250
-          </div>
-          <button
-            id="sendComment"
-            class="mt-4 px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            Enviar Comentário
-          </button>
+            <div
+                    class="absolute bottom-3 right-4 text-sm text-gray-400 select-none"
+                    id="charCount"
+            >
+                0/250
+            </div>
+            <button
+                    id="sendComment"
+                    class="mt-4 px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+                Enviar Comentário
+            </button>
         </div>
-      </section>
-    </main>
+    </section>
+</main>
 
-    <!-- Loader -->
-    <div
-      id="loaderOverlay"
-      class="fixed inset-0 flex items-center justify-center z-50 bg-black/40 hidden"
-    >
-      <div class="loader"></div>
-    </div>
+<div
+        id="loaderOverlay"
+        class="fixed inset-0 flex items-center justify-center z-50 bg-black/40 hidden"
+>
+    <div class="loader"></div>
+</div>
 
-    <script src="{% static 'forum/js/post_detail.js' %}"></script>
-  </body>
+<script src="{% static 'forum/js/post_detail.js' %}"></script>
+</body>
 </html>
