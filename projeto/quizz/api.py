@@ -26,17 +26,12 @@ class QuestionListView(generics.ListAPIView):
         user = self.request.user
         today = timezone.now().date()
 
-        if user.profile.last_attempt_date != today:
-            user.profile.attempts = 0
-            user.profile.last_attempt_date = today
-            user.profile.save()
 
         if user.profile.attempts >= 3:
             raise ValidationError(
                 "Você já atingiu o limite de 3 tentativas para o teste vocacional."
             )
-        user.profile.attempts += 1
-        user.profile.save()
+
 
         try:
             received_ids = list(map(int, received_ids))
@@ -81,26 +76,33 @@ class SubmitAnswersView(APIView):
         user = request.user
         answers = request.data.get("answers", [])
 
-        if user.profile.attempts >= 2:
+        today = timezone.now().date()
+
+        if user.profile.last_attempt_date != today:
+            user.profile.attempts = 0
+            user.profile.last_attempt_date = today
+            user.profile.save()
+
+        if user.profile.attempts >= 3:
             return Response({
-                "error": "Você já atingiu o limite de 3 tentativas para o teste vocacional."
-                         "Nào é possivel realizer o teste novamente"
-            })
+                "error": "Você já atingiu o limite de 3 tentativas para o teste vocacional. "
+                         "Não é possível realizar o teste novamente hoje."
+            }, status=403)
 
         if not isinstance(answers, list) or not answers:
             return Response({"error": "Nenhuma resposta enviada."}, status=400)
 
-        deleted_count, _ = UserAnswer.objects.filter(user=user).delete()
+        UserAnswer.objects.filter(user=user).delete()
 
         new_answers = []
         quiz = None
+
         for answer in answers:
             question_id = answer.get("question")
             alternative_id = answer.get("alternative")
 
             if not question_id or not alternative_id:
                 return Response({"error": "Pergunta ou alternativa inválida."}, status=400)
-
 
             try:
                 question = Question.objects.get(id=question_id)
@@ -121,6 +123,7 @@ class SubmitAnswersView(APIView):
         if new_answers:
             UserAnswer.objects.bulk_create(new_answers)
             user.profile.attempts += 1
+            user.profile.last_attempt_date = today
             user.profile.save()
 
         if quiz:
@@ -132,6 +135,7 @@ class SubmitAnswersView(APIView):
                     "recommended_courses": [course.name for course in best_courses],
                     "score": score
                 })
+
             elif best_courses:
                 if hasattr(user, "profile"):
                     user.profile.courses = best_courses
@@ -144,6 +148,7 @@ class SubmitAnswersView(APIView):
                 })
 
         return Response({"message": "Respostas registradas, mas nenhuma recomendação foi gerada."})
+
 
 
 class SetChosenCourseView(APIView):
